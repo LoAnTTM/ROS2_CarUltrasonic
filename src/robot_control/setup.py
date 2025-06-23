@@ -19,7 +19,7 @@ setup(
     license='MIT',
     entry_points={
         'console_scripts': [
-            'irsensor = robot_control.ir_sensor_node:main',
+            'sensor = robot_control.sensor_node:main',
             'motors = robot_control.motor_controller:main',
         ],
     },
