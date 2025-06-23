@@ -24,8 +24,10 @@ class CommandNode(Node):
         distance = msg.data
         if distance < 20.0:
             command = 'STOP\n'
+            self.get_logger().info(f"Obstacle detected at {distance:.2f} cm, stopping motors.")
         else:
             command = 'FORWARD\n'
+            self.get_logger().info(f"Distance is {distance:.2f} cm, moving forward.")
         self.ser.write(command.encode())
         self.get_logger().info(f"Sent command: {command.strip()}")
 
