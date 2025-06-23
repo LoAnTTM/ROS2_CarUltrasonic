@@ -1,7 +1,7 @@
 import rclpy
-from rclpy.node import Node
-from std_msgs.msg import Float32
 import serial
+from rclpy.node import Node
+from std_msgs.msg import Bool
 
 class CommandNode(Node):
     def __init__(self):
@@ -17,19 +17,20 @@ class CommandNode(Node):
             self.ser = None
         
         # Create a subscriber to the 'distance' topic
-        self.subscription = self.create_subscription(Float32, 'distance', self.listener_callback, 10)
+        self.subscription = self.create_subscription(Bool, 'obstacle_detected', self.listener_callback, 10)
         
 
     def listener_callback(self, msg):
-        distance = msg.data
-        if distance < 20.0:
+        if msg.data:
             command = 'STOP\n'
-            self.get_logger().info(f"Obstacle detected at {distance:.2f} cm, stopping motors.")
+            self.get_logger().info(f"Obstacle detected, stopping motors.")
         else:
             command = 'FORWARD\n'
-            self.get_logger().info(f"Distance is {distance:.2f} cm, moving forward.")
-        self.ser.write(command.encode())
-        self.get_logger().info(f"Sent command: {command.strip()}")
+            self.get_logger().info(f"No obstacle detected, moving forward.")
+        
+        if self.ser:
+            self.ser.write(command.encode())
+            self.get_logger().info(f"Sent command: {command.strip()}")
 
 def main(args=None):
     rclpy.init(args=args)

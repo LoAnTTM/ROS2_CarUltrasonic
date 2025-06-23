@@ -15,11 +15,11 @@ setup(
     zip_safe=True,
     maintainer='LoanTTM',
     maintainer_email='tr.loan232@gmail.com',
-    description='Robot with ultrasonic sensor and 4 wheel motor control',
+    description='Robot with IR sensor and 4 wheel motor control',
     license='MIT',
     entry_points={
         'console_scripts': [
-            'ultrasonic = robot_control.ultrasonic_node:main',
+            'irsensor = robot_control.ir_sensor_node:main',
             'motors = robot_control.motor_controller:main',
         ],
     },
